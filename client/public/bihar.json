@@ -1,0 +1,190 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "district": "Patna",
+                "centroid": [
+                    85.1,
+                    25.6
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            85.0,
+                            25.5
+                        ],
+                        [
+                            85.2,
+                            25.5
+                        ],
+                        [
+                            85.2,
+                            25.7
+                        ],
+                        [
+                            85.0,
+                            25.7
+                        ],
+                        [
+                            85.0,
+                            25.5
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "district": "Gaya",
+                "centroid": [
+                    84.8,
+                    24.8
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            84.6,
+                            24.6
+                        ],
+                        [
+                            85.0,
+                            24.6
+                        ],
+                        [
+                            85.0,
+                            25.0
+                        ],
+                        [
+                            84.6,
+                            25.0
+                        ],
+                        [
+                            84.6,
+                            24.6
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "district": "Muzaffarpur",
+                "centroid": [
+                    85.4,
+                    26.1
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            85.2,
+                            26.0
+                        ],
+                        [
+                            85.6,
+                            26.0
+                        ],
+                        [
+                            85.6,
+                            26.3
+                        ],
+                        [
+                            85.2,
+                            26.3
+                        ],
+                        [
+                            85.2,
+                            26.0
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "district": "Bhagalpur",
+                "centroid": [
+                    86.9,
+                    25.2
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            86.7,
+                            25.0
+                        ],
+                        [
+                            87.1,
+                            25.0
+                        ],
+                        [
+                            87.1,
+                            25.4
+                        ],
+                        [
+                            86.7,
+                            25.4
+                        ],
+                        [
+                            86.7,
+                            25.0
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "district": "Darbhanga",
+                "centroid": [
+                    85.9,
+                    26.2
+                ]
+            },
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [
+                            85.7,
+                            26.0
+                        ],
+                        [
+                            86.1,
+                            26.0
+                        ],
+                        [
+                            86.1,
+                            26.4
+                        ],
+                        [
+                            85.7,
+                            26.4
+                        ],
+                        [
+                            85.7,
+                            26.0
+                        ]
+                    ]
+                ]
+            }
+        }
+    ]
+}

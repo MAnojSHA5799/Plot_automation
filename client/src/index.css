@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #060b26;
+  --card: #0a1235;
+  --primary: #00d2ff;
+  --accent-purple: #9d50bb;
+  --accent-green: #00f2fe;
+  --accent-orange: #f83600;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --border: #1e293b;
+}
+
+body {
+  @apply antialiased bg-[#060b26] text-[#f8fafc];
+}
+
+.sidebar-link-active {
+  @apply bg-primary-600 text-white;
+}
