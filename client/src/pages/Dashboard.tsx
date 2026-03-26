@@ -105,11 +105,11 @@ const Dashboard = () => {
     { id: "KA", value: 85 },
   ];
 
-  const markers = [
-    { markerOffset: -15, name: "Mumbai", coordinates: [72.8777, 19.0760] },
-    { markerOffset: -15, name: "Delhi", coordinates: [77.1025, 28.7041] },
-    { markerOffset: -15, name: "Bangalore", coordinates: [77.5946, 12.9716] },
-  ];
+const markers = [
+  { markerOffset: -15, name: "Mumbai", coordinates: [72.8777, 19.0760] as [number, number] },
+  { markerOffset: -15, name: "Delhi", coordinates: [77.1025, 28.7041] as [number, number] },
+  { markerOffset: -15, name: "Bangalore", coordinates: [77.5946, 12.9716] as [number, number] },
+];
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -168,8 +168,8 @@ const Dashboard = () => {
                <span className="px-3 py-1 bg-[#00d2ff]/20 rounded-full text-[10px] text-[#00d2ff] font-bold uppercase">24 Active Regions</span>
             </div>
           </div>
-          <div className="h-[500px]">
-            <IndiaMap data={mapData} markers={markers} type="geo" />
+          <div className="h-[450px]">
+            <IndiaMap   type="geo" />
           </div>
         </div>
         

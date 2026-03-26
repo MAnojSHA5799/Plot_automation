@@ -10,7 +10,16 @@ import {
 } from "react-simple-maps";
 import { geoCentroid } from "d3-geo";
 
-// 🌍 GeoJSON URL (Working)
+type IndiaMapProps = {
+  data?: { id: string; value: number }[];
+  markers?: {
+    markerOffset: number;
+    name: string;
+    coordinates: [number, number];
+  }[];
+  type?: "geo" | "heat" | "choropleth";
+};
+// 🌍 GeoJSON
 const geoUrl =
   "https://raw.githubusercontent.com/geohacker/india/master/state/india_state.geojson";
 
@@ -25,9 +34,9 @@ const STATE_COLORS = [
   "#2b86c5",
 ];
 
-// 🔴 Marker (Bihta side)
-const mainPoint = {
-  coordinates: [85.05, 25.58],
+// 🔴 Marker (FIXED TYPE)
+const mainPoint: { coordinates: [number, number] } = {
+  coordinates: [86.90, 25.58],
 };
 
 // 📍 Bihar Locations
@@ -41,21 +50,21 @@ const BIHAR_DATA = [
   "Madhepura","Araria","Kishanganj","Sitamarhi"
 ];
 
-export default function IndiaMap() {
-  const [zoom] = useState(1);
-  const [center] = useState([91.1, 22.6]);
-  const [currentIndex, setCurrentIndex] = useState(0);
+export default function IndiaMap(props: IndiaMapProps) {
 
-  // 🔄 Auto Change
+  // ✅ FIX TYPE
+  const [zoom] = useState<number>(1);
+  const [center] = useState<[number, number]>([92.1, 17.6]);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % BIHAR_DATA.length);
-    }, 3000); // 👉 30000 = 30 sec
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);
 
-  // 👇 Safe slicing (no empty issue)
   const visibleLocations = [
     BIHAR_DATA[currentIndex % BIHAR_DATA.length],
     BIHAR_DATA[(currentIndex + 1) % BIHAR_DATA.length],
@@ -67,7 +76,7 @@ export default function IndiaMap() {
     <div
       style={{
         width: "100%",
-        height: "600px",
+        height: "500px",
         borderRadius: "12px",
         overflow: "hidden",
       }}
@@ -86,7 +95,9 @@ export default function IndiaMap() {
           <Geographies geography={geoUrl}>
             {({ geographies }) =>
               geographies.map((geo, index) => {
-                const centroid = geoCentroid(geo);
+                
+                // ✅ FIX centroid type
+                const centroid = geoCentroid(geo) as [number, number];
 
                 return (
                   <g key={geo.rsmKey}>
@@ -97,7 +108,6 @@ export default function IndiaMap() {
                       strokeWidth={0.7}
                     />
 
-                    {/* 🏷️ State Name */}
                     <Marker coordinates={centroid}>
                       <text
                         textAnchor="middle"
@@ -116,14 +126,12 @@ export default function IndiaMap() {
             }
           </Geographies>
 
-          {/* 🔴 Marker + Line + Box */}
+          {/* 🔴 Marker + UI */}
           <Marker coordinates={mainPoint.coordinates}>
             <g>
               
-              {/* 🔴 DOT */}
               <circle r={6} fill="red" stroke="#fff" strokeWidth={2} />
 
-              {/* ✨ LINE */}
               <path
                 d="M0 0 L0 -120 L220 -120"
                 fill="none"
@@ -135,7 +143,6 @@ export default function IndiaMap() {
                 }}
               />
 
-              {/* 📦 BOX */}
               <rect
                 x={220}
                 y={-170}
@@ -146,18 +153,10 @@ export default function IndiaMap() {
                 stroke="#00eaff"
               />
 
-              {/* TITLE */}
-              <text
-                x={240}
-                y={-145}
-                fill="#00eaff"
-                fontSize={12}
-                fontWeight={700}
-              >
+              <text x={240} y={-145} fill="#00eaff" fontSize={12} fontWeight={700}>
                 📍 Live Locations
               </text>
 
-              {/* 🔄 TEXT */}
               {visibleLocations.map((loc, i) => (
                 <text
                   key={i}
@@ -180,15 +179,12 @@ export default function IndiaMap() {
         </ZoomableGroup>
       </ComposableMap>
 
-      {/* 🔥 Animations */}
-      <style jsx>{`
+      {/* ✅ FIX: remove jsx */}
+      <style>
+        {`
         @keyframes dashMove {
-          from {
-            stroke-dashoffset: 0;
-          }
-          to {
-            stroke-dashoffset: -20;
-          }
+          from { stroke-dashoffset: 0; }
+          to { stroke-dashoffset: -20; }
         }
 
         @keyframes fadeText {
@@ -201,7 +197,8 @@ export default function IndiaMap() {
             transform: translateX(0);
           }
         }
-      `}</style>
+      `}
+      </style>
     </div>
   );
 }
