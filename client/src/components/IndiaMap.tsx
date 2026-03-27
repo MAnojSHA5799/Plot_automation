@@ -10,6 +10,7 @@ import {
 } from "react-simple-maps";
 import { geoCentroid } from "d3-geo";
 
+// ✅ Props (future use ke liye)
 type IndiaMapProps = {
   data?: { id: string; value: number }[];
   markers?: {
@@ -19,6 +20,7 @@ type IndiaMapProps = {
   }[];
   type?: "geo" | "heat" | "choropleth";
 };
+
 // 🌍 GeoJSON
 const geoUrl =
   "https://raw.githubusercontent.com/geohacker/india/master/state/india_state.geojson";
@@ -34,9 +36,9 @@ const STATE_COLORS = [
   "#2b86c5",
 ];
 
-// 🔴 Marker (FIXED TYPE)
+// 🔴 Marker (Bihta side)
 const mainPoint: { coordinates: [number, number] } = {
-  coordinates: [86.90, 25.58],
+  coordinates: [84.9, 26.58],
 };
 
 // 📍 Bihar Locations
@@ -51,32 +53,29 @@ const BIHAR_DATA = [
 ];
 
 export default function IndiaMap(props: IndiaMapProps) {
-
-  // ✅ FIX TYPE
   const [zoom] = useState<number>(1);
-  const [center] = useState<[number, number]>([92.1, 17.6]);
+  const [center] = useState<[number, number]>([80, 22]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
+  // 🔄 30 sec me next 10
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % BIHAR_DATA.length);
-    }, 3000);
+      setCurrentIndex((prev) => (prev + 10) % BIHAR_DATA.length);
+    }, 30000);
 
     return () => clearInterval(interval);
   }, []);
 
-  const visibleLocations = [
-    BIHAR_DATA[currentIndex % BIHAR_DATA.length],
-    BIHAR_DATA[(currentIndex + 1) % BIHAR_DATA.length],
-    BIHAR_DATA[(currentIndex + 2) % BIHAR_DATA.length],
-    BIHAR_DATA[(currentIndex + 3) % BIHAR_DATA.length],
-  ];
+  // ✅ 10 locations at a time
+  const visibleLocations = Array.from({ length: 10 }, (_, i) => {
+    return BIHAR_DATA[(currentIndex + i) % BIHAR_DATA.length];
+  });
 
   return (
     <div
       style={{
         width: "100%",
-        height: "500px",
+        height: "550px",
         borderRadius: "12px",
         overflow: "hidden",
       }}
@@ -85,7 +84,7 @@ export default function IndiaMap(props: IndiaMapProps) {
         projection="geoMercator"
         projectionConfig={{
           scale: 800,
-          center: [80, 22],
+          center: [91, 18],
         }}
         style={{ width: "100%", height: "100%" }}
       >
@@ -95,8 +94,6 @@ export default function IndiaMap(props: IndiaMapProps) {
           <Geographies geography={geoUrl}>
             {({ geographies }) =>
               geographies.map((geo, index) => {
-                
-                // ✅ FIX centroid type
                 const centroid = geoCentroid(geo) as [number, number];
 
                 return (
@@ -126,12 +123,14 @@ export default function IndiaMap(props: IndiaMapProps) {
             }
           </Geographies>
 
-          {/* 🔴 Marker + UI */}
+          {/* 🔴 MAIN POINT + LINE + BOX */}
           <Marker coordinates={mainPoint.coordinates}>
             <g>
               
+              {/* 🔴 DOT */}
               <circle r={6} fill="red" stroke="#fff" strokeWidth={2} />
 
+              {/* ✨ LINE */}
               <path
                 d="M0 0 L0 -120 L220 -120"
                 fill="none"
@@ -143,31 +142,40 @@ export default function IndiaMap(props: IndiaMapProps) {
                 }}
               />
 
+              {/* 📦 BOX */}
               <rect
                 x={220}
-                y={-170}
-                width={240}
-                height={150}
+                y={-180}
+                width={260}
+                height={230}
                 rx={15}
                 fill="rgba(0,0,0,0.85)"
                 stroke="#00eaff"
               />
 
-              <text x={240} y={-145} fill="#00eaff" fontSize={12} fontWeight={700}>
-                📍 Live Locations
+              {/* 📍 TITLE */}
+              <text
+                x={240}
+                y={-155}
+                fill="#00eaff"
+                fontSize={13}
+                fontWeight={700}
+              >
+                📍 Demanding Locations
               </text>
 
+              {/* 🔄 10 STATIC ITEMS */}
               {visibleLocations.map((loc, i) => (
                 <text
                   key={i}
                   x={240}
-                  y={-120 + i * 22}
+                  y={-130 + i * 18}
                   fill="#fff"
                   fontSize={11}
                   style={{
                     opacity: 0,
-                    animation: "fadeText 0.6s forwards",
-                    animationDelay: `${i * 0.2}s`,
+                    animation: "fadeText 0.5s forwards",
+                    animationDelay: `${i * 0.1}s`,
                   }}
                 >
                   • {loc}
@@ -179,7 +187,7 @@ export default function IndiaMap(props: IndiaMapProps) {
         </ZoomableGroup>
       </ComposableMap>
 
-      {/* ✅ FIX: remove jsx */}
+      {/* 🔥 Animations */}
       <style>
         {`
         @keyframes dashMove {
@@ -190,14 +198,14 @@ export default function IndiaMap(props: IndiaMapProps) {
         @keyframes fadeText {
           from {
             opacity: 0;
-            transform: translateX(-10px);
+            transform: translateY(8px);
           }
           to {
             opacity: 1;
-            transform: translateX(0);
+            transform: translateY(0);
           }
         }
-      `}
+        `}
       </style>
     </div>
   );
