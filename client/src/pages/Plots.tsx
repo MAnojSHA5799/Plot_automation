@@ -112,7 +112,7 @@ const Plots = () => {
              <div key={plot.id} className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all group">
                 <div className="flex items-start justify-between">
                    <div className="bg-primary-50 p-3 rounded-2xl text-primary-600">
-                      <Home size={24} />
+                      {/* <Home size={24} /> */}
                    </div>
                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase border ${getStatusColor(plot.status)}`}>
                       {plot.status}

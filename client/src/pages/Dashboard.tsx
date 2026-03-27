@@ -169,7 +169,7 @@ const markers = [
             </div>
           </div>
           <div className="h-[450px]">
-            <IndiaMap   type="geo" />
+            <IndiaMap data={mapData} markers={markers} type="geo" />
           </div>
         </div>
         

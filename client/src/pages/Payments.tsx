@@ -19,7 +19,7 @@ const Payments = () => {
     const fetchPayments = async () => {
       try {
         const { data } = await api.get('/payments');
-        setLeads(data); // Fixed typo in previous plan
+        // setLeads(data); // Fixed typo in previous plan
         setPayments(data);
       } catch (err) {
         console.error('Failed to fetch payments');
