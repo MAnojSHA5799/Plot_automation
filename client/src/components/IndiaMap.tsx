@@ -84,7 +84,7 @@ export default function IndiaMap(props: IndiaMapProps) {
         projection="geoMercator"
         projectionConfig={{
           scale: 800,
-          center: [91, 18],
+          center: [105, 15],
         }}
         style={{ width: "100%", height: "100%" }}
       >
