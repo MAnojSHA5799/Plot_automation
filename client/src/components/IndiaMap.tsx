@@ -19,7 +19,7 @@ type IndiaMapProps = {
     coordinates: [number, number];
   }[];
   type?: "geo" | "heat" | "choropleth";
-};
+}; 
 
 // 🌍 GeoJSON
 const geoUrl =
@@ -61,7 +61,7 @@ export default function IndiaMap(props: IndiaMapProps) {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 10) % BIHAR_DATA.length);
-    }, 30000);
+    }, 10000);
 
     return () => clearInterval(interval);
   }, []);
