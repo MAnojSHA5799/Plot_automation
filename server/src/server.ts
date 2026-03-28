@@ -19,7 +19,7 @@ const port = process.env.PORT || 4000;
 // Middleware
 app.use(
   cors({
-    origin: "https://plot-automation.vercel.app", // 👈 frontend URL
+    origin: "https://plot-automation-nnbl.vercel.app", // 👈 frontend URL
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
