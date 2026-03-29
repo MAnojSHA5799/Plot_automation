@@ -9,6 +9,8 @@ import paymentRoutes from './routes/paymentRoutes';
 import authRoutes from './routes/authRoutes';
 import siteVisitRoutes from './routes/siteVisitRoutes';
 import reportRoutes from './routes/reportRoutes';
+import eventRoutes from './routes/eventRoutes';
+import sentimentRoutes from './routes/sentimentRoutes';
 
 dotenv.config();
 
@@ -19,7 +21,7 @@ const port = process.env.PORT || 4000;
 // Middleware
 app.use(
   cors({
-    origin: "https://plot-automation-nnbl.vercel.app", // 👈 frontend URL
+    origin: ["https://plot-automation.vercel.app", "http://localhost:3000", "http://localhost:3001", "http://localhost:3002", "http://localhost:5173"], // 👈 frontend URLs
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
@@ -36,6 +38,8 @@ app.use('/api/plots', plotRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/site-visits', siteVisitRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/events', eventRoutes);
+app.use('/api/sentiment', sentimentRoutes);
 
 // Health check
 app.get('/', (req, res) => {

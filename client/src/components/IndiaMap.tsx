@@ -61,7 +61,7 @@ export default function IndiaMap(props: IndiaMapProps) {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 10) % BIHAR_DATA.length);
-    }, 10000);
+    }, 20000);
 
     return () => clearInterval(interval);
   }, []);
