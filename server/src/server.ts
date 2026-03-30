@@ -21,7 +21,9 @@ const port = process.env.PORT || 4000;
 // Middleware
 app.use(
   cors({
-    origin: ["https://plot-automation-npa4.vercel.app/", "http://localhost:3000", "http://localhost:3001", "http://localhost:3002", "http://localhost:5173"], // 👈 frontend URLs
+    origin: ["https://plot-automation-npa4.vercel.app/"
+      // , "http://localhost:3000", "http://localhost:3001", "http://localhost:3002", "http://localhost:5173"
+    ], // 👈 frontend URLs
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
