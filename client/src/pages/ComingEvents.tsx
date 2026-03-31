@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Bot, MapPin, Zap, TrendingUp, Users, Compass, ExternalLink, CalendarDays } from 'lucide-react';
+import { Bot, MapPin, Zap, TrendingUp, Users, Compass, ExternalLink, CalendarDays, AlertCircle, X, ShieldCheck, Activity } from 'lucide-react';
 import api from '../services/api';
 import { 
   AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, 
@@ -23,6 +23,7 @@ interface EventData {
   AI_Confidence: number;
   Real_Estate_Impact: number;
   Category: string;
+  Event_Date: string;
 }
 
 const ComingEvents: React.FC = () => {
@@ -30,22 +31,61 @@ const ComingEvents: React.FC = () => {
   const [metrics, setMetrics] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [upcomingAlerts, setUpcomingAlerts] = useState<EventData[]>([]);
+  const [showNotification, setShowNotification] = useState(false);
+  const [scanStatus, setScanStatus] = useState('IDLE');
 
   useEffect(() => {
     const fetchEvents = async () => {
+      setScanStatus('SCANNING');
       try {
         const res = await api.get('/events');
         if (res.data.success) {
-          setEvents(res.data.data);
+          const allEvents = res.data.data;
+          
+          // 🧐 Inject Curiosity-Driven Dummy Event
+          const curiosityEvent: EventData = {
+            Event_Name: "⚠️ PLOT SURGE: Sector-7 Expansion Project",
+            Location: "Bihta Core",
+            Link: "#",
+            Snippet: "CONFIDENTIAL: Internal data suggests a 45% valuation spike in Sector-7. Govt infrastructure clearance imminent. Strategic acquisition recommended.",
+            Predicted_Attendance: 1250,
+            AI_Confidence: 98,
+            Real_Estate_Impact: 10,
+            Category: "High Value",
+            Event_Date: new Date().toISOString().split('T')[0] // Today
+          };
+          
+          const finalEvents = [curiosityEvent, ...allEvents];
+          setEvents(finalEvents);
           setMetrics(res.data.globalMetrics);
+          
+          // Logic for notifications (Within 5 days)
+          const today = new Date();
+          today.setHours(0, 0, 0, 0); // Normalize to midnight
+          
+          const maxDate = new Date(today);
+          maxDate.setDate(today.getDate() + 5);
+          
+          const alerts = finalEvents.filter((ev: EventData) => {
+            const evDate = new Date(ev.Event_Date);
+            evDate.setHours(0, 0, 0, 0); // Normalize to midnight
+            return evDate >= today && evDate <= maxDate;
+          });
+          
+          setUpcomingAlerts(alerts);
+          if (alerts.length > 0) {
+            setTimeout(() => setShowNotification(true), 1500);
+          }
         } else {
           setError(res.data.message || 'Failed to fetch events');
         }
-      } catch (err) {
+      } catch (err: any) {
         setError('Error connecting to backend API');
         console.error(err);
       } finally {
         setLoading(false);
+        setScanStatus('ACTIVE');
       }
     };
 
@@ -80,18 +120,20 @@ const ComingEvents: React.FC = () => {
 
   const COLORS = ['#8b5cf6', '#d946ef', '#3b82f6', '#06b6d4', '#10b981'];
 
-  const filteredEvents = events.filter(event => {
+  const filteredEvents = events.filter((event: EventData) => {
     const text = `${event.Event_Name} ${event.Snippet || ''} ${event.Category || ''}`.toLowerCase();
+    // Include high-value curiosity events
+    if (event.Category === "High Value") return true;
     return text.includes('expo') || text.includes('conference');
   });
 
   // Calculate Spatial Markers
   const mapData = Object.entries(
-    filteredEvents.reduce((acc, ev) => {
+    filteredEvents.reduce((acc: Record<string, number>, ev: EventData) => {
       acc[ev.Location] = (acc[ev.Location] || 0) + 1;
       return acc;
     }, {} as Record<string, number>)
-  ).map(([city, count]) => ({
+  ).map(([city, count]: [string, number]) => ({
     city,
     count,
     x: CITY_COORDS[city]?.x || 85.3131,
@@ -99,17 +141,161 @@ const ComingEvents: React.FC = () => {
   }));
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative pb-20">
+      {/* 🔔 Notification Popup */}
+    {showNotification && upcomingAlerts.length > 0 && (
+  <div className="fixed top-24 right-6 z-[100] animate-in fade-in slide-in-from-right-full duration-1000 ease-out max-w-md">
+    
+    <div className="bg-[#0a1235]/95 backdrop-blur-2xl border-2 border-red-500/40 rounded-3xl p-6 shadow-[0_0_40px_rgba(255,0,0,0.25)] relative overflow-hidden group">
+      
+      {/* Left Gradient Line */}
+      <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-red-500 via-white to-red-500 animate-pulse"></div>
+
+      {/* Close Button */}
+      <button 
+        onClick={() => setShowNotification(false)}
+        className="absolute top-4 right-4 text-slate-500 hover:text-white transition-colors p-1"
+      >
+        <X size={20} />
+      </button>
+
+      {/* Alert Header */}
+      <div className="flex items-center gap-4 mb-4">
+        
+        {/* Icon Box */}
+        <div className="relative p-3 rounded-2xl border border-red-500/40 bg-white overflow-hidden">
+          
+          {/* Animated Gradient */}
+          <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,0,0,0.15),rgba(255,255,255,0.6),rgba(255,0,0,0.15))] bg-[length:200%_200%] animate-[gradientMove_3s_linear_infinite]"></div>
+
+          {/* Glow */}
+          <div className="absolute inset-0 rounded-full bg-red-500/20 blur-lg animate-pulse"></div>
+
+          {/* Icon */}
+          <Zap className="relative z-10 w-6 h-6 text-red-500 animate-bounce" />
+        </div>
+
+        {/* Text */}
+        <div>
+          <h4 className="text-white font-semibold text-lg tracking-tight">
+            System Priority Alert
+          </h4>
+
+          <div className="flex items-center gap-2 mt-1">
+            <span className="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+            <p className="text-red-300 text-xs font-semibold uppercase tracking-wider">
+              Intercepting Alpha-Feed
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Alerts List */}
+      <div className="space-y-4 mb-6">
+        {upcomingAlerts.slice(0, 2).map((ev: EventData, i: number) => (
+          <div
+            key={i}
+            className={`bg-white/5 border ${
+              ev.Category === "High Value"
+                ? "border-red-500/50"
+                : "border-white/10"
+            } p-4 rounded-xl`}
+          >
+            <div className="flex justify-between items-start mb-2">
+              <p
+                className={`text-sm font-bold ${
+                  ev.Category === "High Value"
+                    ? "text-red-400"
+                    : "text-white"
+                } line-clamp-1`}
+              >
+                {ev.Event_Name}
+              </p>
+
+              <span className="text-[10px] bg-red-500/20 px-2 py-0.5 rounded text-red-400 font-bold uppercase shrink-0 ml-2">
+                {ev.Location}
+              </span>
+            </div>
+
+            <p className="text-slate-400 text-[11px] leading-relaxed line-clamp-2 italic">
+              "{ev.Snippet}"
+            </p>
+
+            <div className="mt-2 flex items-center justify-between">
+              <span className="text-[10px] text-red-300 font-mono tracking-tighter">
+                {ev.Event_Date}
+              </span>
+
+              {ev.Category === "High Value" && (
+                <span className="text-[9px] text-emerald-400 animate-pulse font-bold tracking-widest uppercase">
+                  Secret Lead Alert
+                </span>
+              )}
+            </div>
+          </div>
+        ))}
+
+        {upcomingAlerts.length > 2 && (
+          <p className="text-center text-[10px] text-slate-500 font-bold uppercase">
+            Discover {upcomingAlerts.length - 2} more hidden signals
+          </p>
+        )}
+      </div>
+
+      {/* Action Button */}
+      <button 
+        onClick={() => setShowNotification(false)}
+        className="w-full bg-gradient-to-r from-red-600 to-white/80 hover:from-red-500 hover:to-white text-black font-bold py-3 rounded-2xl transition-all shadow-lg shadow-red-500/20 text-sm uppercase tracking-widest"
+      >
+        Intercept Detections
+      </button>
+    </div>
+  </div>
+)}
+
+      {/* 🚀 Real-time Ticker */}
+      <div className="bg-[#050b24] border-y border-indigo-500/20 py-2 overflow-hidden flex items-center relative z-20">
+        <div className="flex items-center gap-2 px-4 border-r border-indigo-500/30 bg-[#050b24] z-10 shrink-0">
+          <Activity className="text-emerald-400 w-4 h-4 animate-pulse" />
+          <span className="text-[10px] font-black text-emerald-400 uppercase tracking-tighter">Live Neural Feed</span>
+        </div>
+        <div className="ticker-scroll flex items-center gap-8 whitespace-nowrap animate-ticker">
+          {events.slice(0, 10).map((ev: EventData, i: number) => (
+            <div key={i} className="flex items-center gap-2">
+              <span className="w-1 h-1 rounded-full bg-indigo-500"></span>
+              <span className="text-[10px] text-slate-400 font-medium">New Detection in <span className="text-white font-bold">{ev.Location}</span>: {ev.Event_Name}</span>
+              <span className="text-[9px] text-fuchsia-500 font-mono">[{ev.AI_Confidence}% CONF]</span>
+            </div>
+          ))}
+        </div>
+        <style>{`
+          @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          .ticker-scroll {
+            animation: ticker 30s linear infinite;
+          }
+        `}</style>
+      </div>
+
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center relative mb-8">
         <div className="absolute -top-10 -left-10 w-48 h-48 bg-fuchsia-500/20 blur-3xl rounded-full pointer-events-none"></div>
         <div className="z-10 relative">
           <div className="flex items-center gap-3 mb-2">
-            <h1 className="text-3xl font-bold text-white tracking-tight">AI Event Prognosis</h1>
-            <span className="bg-gradient-to-r from-indigo-500/20 to-fuchsia-500/20 border border-fuchsia-500/30 text-fuchsia-400 text-xs px-3 py-1 rounded-full font-bold uppercase flex items-center shadow-[0_0_15px_rgba(217,70,239,0.2)]">
-              <span className="w-2 h-2 rounded-full bg-fuchsia-400 animate-pulse mr-2"></span>
-              Neural Engine Active
-            </span>
+            <h1 className="text-3xl font-bold text-white tracking-tight flex items-center gap-3">
+              AI Event Prognosis
+              <div className="bg-[#0a1235] p-1.5 rounded-lg border border-indigo-500/30">
+                <ShieldCheck className="text-emerald-400 w-5 h-5" />
+              </div>
+            </h1>
+            <div className="flex items-center gap-2 bg-gradient-to-r from-indigo-500/10 to-transparent border-l-2 border-indigo-500 px-3 py-1">
+              <span className={`w-2 h-2 rounded-full ${scanStatus === 'SCANNING' ? 'bg-amber-400 animate-ping' : 'bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.8)]'}`}></span>
+              <span className="text-slate-300 text-[10px] font-black uppercase tracking-widest">
+                {scanStatus === 'SCANNING' ? 'Engine Scanning...' : 'Real-time Monitoring Active'}
+              </span>
+            </div>
           </div>
           <p className="text-slate-400 font-medium max-w-xl">Deep learning models predicting future market attractors, expos, and demographic surges across key regions.</p>
         </div>
@@ -221,12 +407,18 @@ const ComingEvents: React.FC = () => {
                   )}
 
                   <div className="pt-4 border-t border-[#1e293b] flex items-center justify-between relative z-10">
-                    <div>
-                      <p className="text-[10px] text-slate-500 font-bold uppercase mb-0.5 tracking-wider">Est. Attendance</p>
-                      <p className="text-white font-black flex items-center text-sm">
-                        <Users className="w-3.5 h-3.5 mr-1.5 text-slate-400" />
-                        {event.Predicted_Attendance?.toLocaleString() || 'Computing...'}
-                      </p>
+                    <div className="flex flex-col gap-2">
+                      <div>
+                        <p className="text-[10px] text-slate-500 font-bold uppercase mb-0.5 tracking-wider">Est. Attendance</p>
+                        <p className="text-white font-black flex items-center text-sm">
+                          <Users className="w-3.5 h-3.5 mr-1.5 text-slate-400" />
+                          {event.Predicted_Attendance?.toLocaleString() || 'Computing...'}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <CalendarDays className="w-3 h-3 text-fuchsia-400" />
+                        <span className="text-[10px] text-fuchsia-300 font-bold">{event.Event_Date}</span>
+                      </div>
                     </div>
                     {event.Link && (
                       <a href={event.Link} target="_blank" rel="noopener noreferrer" className="bg-slate-800 hover:bg-fuchsia-500/20 text-fuchsia-400 p-2.5 rounded-xl transition-all hover:scale-110">

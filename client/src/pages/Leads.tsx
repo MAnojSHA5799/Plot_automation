@@ -10,6 +10,8 @@ const Leads = () => {
   const [leads, setLeads] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [selectedLead, setSelectedLead] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -27,7 +29,9 @@ const Leads = () => {
   const fetchLeads = async () => {
     try {
       const { data } = await api.get('/leads');
+      console.log("30",data)
       setLeads(data);
+
     } catch (err) {
       console.error('Failed to fetch leads');
     }
@@ -129,10 +133,35 @@ const Leads = () => {
     );
   };
 
+  const formatDate = (isoString?: string) => {
+    if (!isoString) return '-';
+    const date = new Date(isoString);
+    if (isNaN(date.getTime())) return '-';
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  };
+
   const filteredLeads = leads.filter(lead => {
     const matchesSearch = lead.name.toLowerCase().includes(searchTerm.toLowerCase()) || lead.phone.includes(searchTerm);
     const matchesStatus = statusFilter === 'all' || lead.status?.toLowerCase() === statusFilter.toLowerCase();
-    return matchesSearch && matchesStatus;
+    
+    // Date Filtering
+    let matchesDate = true;
+    if (lead.created_at) {
+      const leadDate = new Date(lead.created_at).getTime();
+      if (startDate) {
+        const start = new Date(startDate).setHours(0, 0, 0, 0);
+        if (leadDate < start) matchesDate = false;
+      }
+      if (endDate) {
+        const end = new Date(endDate).setHours(23, 59, 59, 999);
+        if (leadDate > end) matchesDate = false;
+      }
+    }
+    
+    return matchesSearch && matchesStatus && matchesDate;
   });
 
   return (
@@ -162,17 +191,52 @@ const Leads = () => {
             className="w-full pl-10 pr-4 py-2 bg-gray-50 border-none rounded-xl text-sm focus:ring-2 focus:ring-primary-500 outline-none"
           />
         </div>
-        <select 
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          className="bg-gray-50 border-none rounded-xl text-sm py-2 px-4 focus:ring-2 focus:ring-primary-500 outline-none w-full md:w-auto"
-        >
-          <option value="all">All Status</option>
-          <option value="new">New</option>
-          <option value="contacted">Contacted</option>
-          <option value="interested">Interested</option>
-          <option value="booked">Booked</option>
-        </select>
+        
+        <div className="flex items-center gap-2 w-full md:w-auto">
+          <div className="flex flex-col">
+            <span className="text-[10px] font-bold text-gray-400 uppercase ml-1 mb-1">Start Date</span>
+            <input 
+              type="date" 
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="bg-gray-50 border-none rounded-xl text-xs py-2 px-3 focus:ring-2 focus:ring-primary-500 outline-none"
+            />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-[10px] font-bold text-gray-400 uppercase ml-1 mb-1">End Date</span>
+            <input 
+              type="date" 
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="bg-gray-50 border-none rounded-xl text-xs py-2 px-3 focus:ring-2 focus:ring-primary-500 outline-none"
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-col w-full md:w-auto">
+           <span className="text-[10px] font-bold text-gray-400 uppercase ml-1 mb-1">Status</span>
+           <select 
+             value={statusFilter}
+             onChange={(e) => setStatusFilter(e.target.value)}
+             className="bg-gray-50 border-none rounded-xl text-sm py-2 px-4 focus:ring-2 focus:ring-primary-500 outline-none"
+           >
+             <option value="all">All Status</option>
+             <option value="new">New</option>
+             <option value="contacted">Contacted</option>
+             <option value="interested">Interested</option>
+             <option value="booked">Booked</option>
+           </select>
+        </div>
+
+        {(startDate || endDate || statusFilter !== 'all' || searchTerm) && (
+          <button 
+            onClick={() => { setStartDate(''); setEndDate(''); setStatusFilter('all'); setSearchTerm(''); }}
+            className="p-2 text-red-500 hover:bg-red-50 rounded-xl transition-colors mt-4 md:mt-0"
+            title="Clear Filters"
+          >
+            <X size={20} />
+          </button>
+        )}
       </div>
 
       {/* Table */}
@@ -184,6 +248,7 @@ const Leads = () => {
                 <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase">Lead Info</th>
                 <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase">Status</th>
                 <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase">Source</th>
+                <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase">Date</th>
                 <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase text-right">Actions</th>
               </tr>
             </thead>
@@ -203,6 +268,11 @@ const Leads = () => {
                     <div className="flex items-center gap-2 text-xs text-gray-600">
                       {getSourceIcon(lead.source)} {lead.source}
                     </div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <span className="text-sm text-gray-600 font-medium">
+                      {formatDate(lead.created_at)}
+                    </span>
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">

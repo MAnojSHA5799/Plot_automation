@@ -53,6 +53,12 @@ export const getUpcomingEvents = async (req: Request, res: Response) => {
           
           if (isBlocked) category = "Other";
           
+          // Generate a random date in the next 15 days for simulation
+          const randomDays = Math.floor(Math.random() * 15);
+          const eventDate = new Date();
+          eventDate.setDate(eventDate.getDate() + randomDays);
+          const eventDateStr = eventDate.toISOString().split('T')[0];
+
           return {
             Event_Name: event.title,
             Location: q.city,
@@ -61,7 +67,8 @@ export const getUpcomingEvents = async (req: Request, res: Response) => {
             Predicted_Attendance: predictedAttendance,
             AI_Confidence: aiConfidence,
             Real_Estate_Impact: impactScore,
-            Category: category
+            Category: category,
+            Event_Date: eventDateStr
           };
         });
       } catch (e) {

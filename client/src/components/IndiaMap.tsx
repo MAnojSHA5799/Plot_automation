@@ -43,33 +43,92 @@ const mainPoint: { coordinates: [number, number] } = {
 
 // 📍 Bihar Locations
 const BIHAR_DATA = [
-  "Patna","Danapur","Bihta","Fatuha","Barh",
-  "Gaya","Bodh Gaya","Muzaffarpur","Kanti",
-  "Bhagalpur","Darbhanga","Nalanda","Rajgir",
-  "Begusarai","Purnia","Katihar","Chapra",
-  "Hajipur","Samastipur","Siwan","Ara",
-  "Buxar","Motihari","Munger","Saharsa",
-  "Madhepura","Araria","Kishanganj","Sitamarhi"
+  "Patna", "Danapur", "Bihta", "Fatuha", "Barh",
+  "Gaya", "Bodh Gaya", "Muzaffarpur", "Kanti",
+  "Bhagalpur", "Darbhanga", "Nalanda", "Rajgir",
+  "Begusarai", "Purnia", "Katihar", "Chapra",
+  "Hajipur", "Samastipur", "Siwan", "Ara",
+  "Buxar", "Motihari", "Munger", "Saharsa",
+  "Madhepura", "Araria", "Kishanganj", "Sitamarhi"
 ];
 
 export default function IndiaMap(props: IndiaMapProps) {
   const [zoom] = useState<number>(1);
   const [center] = useState<[number, number]>([80, 22]);
+  const [geographyData, setGeographyData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
-  // 🔄 30 sec me next 10
+  // 🔄 Fetch Map Data
   useEffect(() => {
+    const fetchMapData = async () => {
+      try {
+        const response = await fetch(geoUrl);
+        const data = await response.json();
+        setGeographyData(data);
+      } catch (error) {
+        console.error("Error loading map data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchMapData();
+  }, []);
+
+  // 🔄 20 sec me next 10 (Carousel)
+  useEffect(() => {
+    if (isLoading) return;
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 10) % BIHAR_DATA.length);
     }, 20000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [isLoading]);
 
   // ✅ 10 locations at a time
   const visibleLocations = Array.from({ length: 10 }, (_, i) => {
     return BIHAR_DATA[(currentIndex + i) % BIHAR_DATA.length];
   });
+
+  if (isLoading) {
+    return (
+      <div
+        style={{
+          width: "100%",
+          height: "550px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "rgba(0,0,0,0.05)",
+          borderRadius: "12px",
+          color: "#0072ff",
+        }}
+      >
+        <div className="loader"></div>
+        <p style={{ marginTop: "15px", fontWeight: 600, fontSize: "16px" }}>
+          Loading Plot Data Map...
+        </p>
+        <style>{`
+          .loader {
+            width: 48px;
+            height: 48px;
+            border: 5px solid #0072ff;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+          }
+          @keyframes rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}</style>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -78,6 +137,7 @@ export default function IndiaMap(props: IndiaMapProps) {
         height: "550px",
         borderRadius: "12px",
         overflow: "hidden",
+        position: "relative",
       }}
     >
       <ComposableMap
@@ -91,7 +151,7 @@ export default function IndiaMap(props: IndiaMapProps) {
         <ZoomableGroup zoom={zoom} center={center}>
           
           {/* 🌈 STATES */}
-          <Geographies geography={geoUrl}>
+          <Geographies geography={geographyData}>
             {({ geographies }) =>
               geographies.map((geo, index) => {
                 const centroid = geoCentroid(geo) as [number, number];
@@ -132,7 +192,7 @@ export default function IndiaMap(props: IndiaMapProps) {
 
               {/* ✨ LINE */}
               <path
-                d="M0 0 L0 -120 L220 -120"
+                d="M0 0 L0 -120 L180 -120"
                 fill="none"
                 stroke="#ffffff"
                 strokeWidth="2"
@@ -144,31 +204,32 @@ export default function IndiaMap(props: IndiaMapProps) {
 
               {/* 📦 BOX */}
               <rect
-                x={220}
+                x={180}
                 y={-180}
                 width={260}
                 height={230}
                 rx={15}
                 fill="rgba(0,0,0,0.85)"
                 stroke="#00eaff"
+                strokeWidth={1.5}
               />
 
               {/* 📍 TITLE */}
               <text
-                x={240}
+                x={200}
                 y={-155}
                 fill="#00eaff"
-                fontSize={13}
+                fontSize={14}
                 fontWeight={700}
               >
                 📍 Demanding Locations
               </text>
 
-              {/* 🔄 10 STATIC ITEMS */}
+              {/* 🔄 10 CAROUSEL ITEMS */}
               {visibleLocations.map((loc, i) => (
                 <text
-                  key={i}
-                  x={240}
+                  key={`${currentIndex}-${i}`}
+                  x={210}
                   y={-130 + i * 18}
                   fill="#fff"
                   fontSize={11}

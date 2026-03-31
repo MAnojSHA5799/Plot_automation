@@ -6,9 +6,11 @@ import {
 
 interface ChartProps {
   data: any[];
+  dataKey1?: string;
+  dataKey2?: string;
 }
 
-export const StackedBarChart: React.FC<ChartProps> = ({ data }) => (
+export const StackedBarChart: React.FC<ChartProps> = ({ data, dataKey1 = 'leads', dataKey2 = 'sales' }) => (
   <ResponsiveContainer width="100%" height={300}>
     <BarChart data={data}>
       <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
@@ -19,8 +21,8 @@ export const StackedBarChart: React.FC<ChartProps> = ({ data }) => (
         itemStyle={{ color: '#fff' }}
       />
       <Legend />
-      <Bar dataKey="leads" stackId="a" fill="#00d2ff" />
-      <Bar dataKey="sales" stackId="a" fill="#9d50bb" />
+      <Bar dataKey={dataKey1} stackId="a" fill="#00d2ff" />
+      <Bar dataKey={dataKey2} stackId="a" fill="#9d50bb" />
     </BarChart>
   </ResponsiveContainer>
 );
@@ -76,7 +78,7 @@ export const MixedChart: React.FC<ChartProps> = ({ data }) => (
   </ResponsiveContainer>
 );
 
-export const DualAxisChart: React.FC<ChartProps> = ({ data }) => (
+export const DualAxisChart: React.FC<ChartProps> = ({ data, dataKey1 = 'leads', dataKey2 = 'revenue' }) => (
   <ResponsiveContainer width="100%" height={300}>
     <ComposedChart data={data}>
       <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
@@ -88,8 +90,8 @@ export const DualAxisChart: React.FC<ChartProps> = ({ data }) => (
         itemStyle={{ color: '#fff' }}
       />
       <Legend />
-      <Bar yAxisId="left" dataKey="leads" fill="#00d2ff" />
-      <Line yAxisId="right" type="monotone" dataKey="revenue" stroke="#9d50bb" strokeWidth={3} />
+      <Bar yAxisId="left" dataKey={dataKey1} fill="#00d2ff" />
+      <Line yAxisId="right" type="monotone" dataKey={dataKey2} stroke="#9d50bb" strokeWidth={3} />
     </ComposedChart>
   </ResponsiveContainer>
 );

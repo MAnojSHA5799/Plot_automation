@@ -11,6 +11,7 @@ import SiteVisits from './pages/SiteVisits';
 import Reports from './pages/Reports';
 import ComingEvents from './pages/ComingEvents';
 import SentimentAnalysis from './pages/SentimentAnalysis';
+import RunningVideos from './pages/RunningVideos';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user, loading } = useAuth();
@@ -33,6 +34,7 @@ const AppRoutes = () => {
       <Route path="/reports" element={<ProtectedRoute><Reports /></ProtectedRoute>} />
       <Route path="/events" element={<ProtectedRoute><ComingEvents /></ProtectedRoute>} />
       <Route path="/sentiment" element={<ProtectedRoute><SentimentAnalysis /></ProtectedRoute>} />
+      <Route path="/videos" element={<ProtectedRoute><RunningVideos /></ProtectedRoute>} />
     </Routes>
   );
 };

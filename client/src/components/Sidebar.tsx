@@ -9,7 +9,8 @@ import {
   BarChart3,
   Home,
   CalendarPlus,
-  MessageSquare
+  MessageSquare,
+  PlayCircle
 } from 'lucide-react';
 
 const Sidebar = () => {
@@ -20,6 +21,7 @@ const Sidebar = () => {
     { title: 'Payments', icon: <CreditCard size={20} />, path: '/payments' },
     { title: 'Site Visits', icon: <Calendar size={20} />, path: '/site-visits' },
     { title: 'Reports', icon: <BarChart3 size={20} />, path: '/reports' },
+    { title: 'Videos', icon: <PlayCircle size={20} />, path: '/videos' },
     { title: 'Coming Events', icon: <CalendarPlus size={20} />, path: '/events' },
     { title: 'Sentiment Analysis', icon: <MessageSquare size={20} />, path: '/sentiment' },
   ];
