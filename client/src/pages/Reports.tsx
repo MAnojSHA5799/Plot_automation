@@ -37,18 +37,18 @@ const Reports = () => {
   ]);
 
   const [stats, setStats] = useState([
-    { label: 'Avg Sale Price', value: '₹48.2L', sub: 'Last 30 days | पिछले 30 दिन', icon: <Building2 />, color: 'text-[#00d2ff]', bg: 'bg-[#00d2ff]/10' },
-    { label: 'Booking Ratio', value: '22.4%', sub: 'Target 25% | लक्ष्य 25%', icon: <UserCheck />, color: 'text-emerald-400', bg: 'bg-emerald-400/10' },
-    { label: 'Audit Compliance', value: '100%', sub: 'RERA Approved | रेरा स्वीकृत', icon: <ShieldCheck />, color: 'text-indigo-400', bg: 'bg-indigo-400/10' },
-    { label: 'Pending Dues', value: '₹8.4L', sub: 'Across 3 units | 3 यूनिट बकाया', icon: <Wallet />, color: 'text-amber-400', bg: 'bg-amber-400/10' }
+    { label: 'औसत बिक्री मूल्य (Avg Sale Price)', value: '₹48.2L', sub: 'Last 30 days | पिछले 30 दिन', icon: <Building2 />, color: 'text-[#00d2ff]', bg: 'bg-[#00d2ff]/10' },
+    { label: 'बुकिंग अनुपात (Booking Ratio)', value: '22.4%', sub: 'Target 25% | लक्ष्य 25%', icon: <UserCheck />, color: 'text-emerald-400', bg: 'bg-emerald-400/10' },
+    { label: 'ऑडिट अनुपालन (Audit Compliance)', value: '100%', sub: 'RERA Approved | रेरा स्वीकृत', icon: <ShieldCheck />, color: 'text-indigo-400', bg: 'bg-indigo-400/10' },
+    { label: 'बकाया राशि (Pending Dues)', value: '₹8.4L', sub: 'Across 3 units | 3 यूनिट बकाया', icon: <Wallet />, color: 'text-amber-400', bg: 'bg-amber-400/10' }
   ]);
 
   // REPORT PRESETS DATA
   const reportManifest = [
     { 
       id: 1,
-      title: 'Monthly Sales & Collection Audit', 
-      desc: 'Detailed breakdown of payment schedules and fiscal inflows.', 
+      title: 'मासिक बिक्री और संग्रह ऑडिट (Monthly Sales Audit)', 
+      desc: 'भुगतान कार्यक्रम और वित्तीय प्रवाह का विस्तृत विवरण।', 
       hindi: 'मासिक बिक्री और संग्रह ऑडिट',
       data: [
         { date: '2026-03-28', customer: 'Rajesh Kumar', amount: '₹12,40,000', mode: 'RTGS', status: 'Verified' },
@@ -59,8 +59,8 @@ const Reports = () => {
     },
     { 
       id: 2,
-      title: 'Inventory Availability Manifest', 
-      desc: 'Real-time status of plot availability and booking holds.', 
+      title: 'इन्वेंट्री उपलब्धता रिपोर्ट (Inventory Availability)', 
+      desc: 'प्लॉट की उपलब्धता और बुकिंग होल्ड की रीयल-टाइम स्थिति।', 
       hindi: 'इन्वेंट्री उपलब्धता मेनिफेस्ट',
       data: [
         { plot: 'A-101', block: 'East Block', size: '1200 Sqft', status: 'Booked', client: 'Vivek Singh' },
@@ -71,8 +71,8 @@ const Reports = () => {
     },
     { 
       id: 3,
-      title: 'Lead Conversion Performance', 
-      desc: 'Sales team ROI analysis and channel attribution metrics.', 
+      title: 'लीड रूपांतरण प्रदर्शन (Lead Conversion ROI)', 
+      desc: 'सेल्स टीम ROI विश्लेषण और चैनल एट्रिब्यूशन मेट्रिक्स।', 
       hindi: 'लीड रूपांतरण प्रदर्शन',
       data: [
         { agent: 'Rahul Khanna', leads: 45, conversions: 8, roi: '17.8%', rating: '★★★★★' },
@@ -83,8 +83,8 @@ const Reports = () => {
     },
     { 
       id: 4,
-      title: 'Construction Compliance Report', 
-      desc: 'RERA timeline adherence and quality assurance scores.', 
+      title: 'निर्माण अनुपालन रिपोर्ट (Construction Compliance)', 
+      desc: 'RERA समयसीमा और गुणवत्ता आश्वासन स्कोर।', 
       hindi: 'निर्माण अनुपालन रिपोर्ट',
       data: [
         { stage: 'Boundary Wall', target: '2026-04-15', progress: 100, quality: 'Exceeds' },
@@ -202,7 +202,7 @@ const Reports = () => {
 
       {/* HEADER SECTION */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 bg-gradient-to-br from-[#0a1235] to-[#060b26] p-10 rounded-[2.5rem] border border-[#1e293b] shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 p-8 text-white/5 font-black text-8xl pointer-events-none select-none">AUDIT</div>
+        <div className="absolute top-0 right-0 p-8 text-white/5 font-black text-8xl pointer-events-none select-none">ऑडिट (AUDIT)</div>
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-4">
              <div className="p-2 bg-[#00d2ff]/10 rounded-lg text-[#00d2ff]">
@@ -210,8 +210,8 @@ const Reports = () => {
              </div>
              <span className="text-[10px] font-black text-[#00d2ff] uppercase tracking-[0.3em]">Live Performance Cloud</span>
           </div>
-          <h1 className="text-5xl font-black text-white uppercase tracking-tighter">Performance Audit 2026</h1>
-          <p className="text-slate-400 mt-2 text-lg font-medium">Awadh Developers: Analytical breakdown of sales velocity and fiscal compliance.</p>
+          <h1 className="text-5xl font-black text-white uppercase tracking-tighter">परफॉरमेंस ऑडिट 2026 (Performance Audit)</h1>
+          <p className="text-slate-400 mt-2 text-lg font-medium">अवध डेवलपर्स: बिक्री की गति और वित्तीय अनुपालन का विश्लेषणात्मक विवरण।</p>
         </div>
         
         <div className="flex items-center gap-4 relative z-10">
@@ -219,7 +219,7 @@ const Reports = () => {
              <Download size={22} className="text-[#00d2ff] group-hover:scale-110 transition-transform" />
           </div>
           <button className="h-14 px-8 bg-[#00d2ff] text-[#0a1235] rounded-2xl font-black uppercase tracking-widest text-xs hover:shadow-[0_0_30px_rgba(0,210,255,0.4)] transition-all">
-            Generate Full PDF
+            पूर्ण PDF रिपोर्ट (Generate Full PDF)
           </button>
         </div>
       </div>
@@ -249,8 +249,8 @@ const Reports = () => {
         <div className="bg-[#0a1235] p-10 rounded-[2.5rem] border border-[#1e293b] shadow-xl relative group">
            <div className="flex items-center justify-between mb-10">
              <div>
-               <h3 className="text-2xl font-black text-white uppercase tracking-tighter">Revenue Growth</h3>
-               <p className="text-xs text-slate-500 font-bold uppercase tracking-wider mt-1">Monthly collection scale | मासिक राजस्व संग्रह</p>
+               <h3 className="text-2xl font-black text-white uppercase tracking-tighter">राजस्व वृद्धि (Revenue Growth)</h3>
+               <p className="text-xs text-slate-500 font-bold uppercase tracking-wider mt-1">मासिक राजस्व संग्रह | Monthly collection scale</p>
              </div>
              <div className="p-4 bg-emerald-500/10 text-emerald-400 rounded-2xl font-black text-sm flex items-center gap-2 border border-emerald-500/10">
                 <TrendingUp size={18} /> +22.8%
@@ -278,8 +278,8 @@ const Reports = () => {
 
         {/* CONVERSION SOURCES */}
         <div className="bg-[#0a1235] p-10 rounded-[2.5rem] border border-[#1e293b] shadow-xl relative overflow-hidden">
-           <h3 className="text-2xl font-black text-white uppercase tracking-tighter mb-2">Lead Ecosystem</h3>
-           <p className="text-xs text-slate-500 font-bold uppercase tracking-wider mb-8">Channel attribution | मार्केटिंग चैनल वितरण</p>
+           <h3 className="text-2xl font-black text-white uppercase tracking-tighter mb-2">लीड इकोसिस्टम (Lead Ecosystem)</h3>
+           <p className="text-xs text-slate-500 font-bold uppercase tracking-wider mb-8">मार्केटिंग चैनल वितरण | Channel attribution</p>
            
            <div className="flex flex-col md:flex-row items-center gap-10">
              <div className="h-64 w-full md:w-1/2">
