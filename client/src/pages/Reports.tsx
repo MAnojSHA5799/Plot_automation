@@ -22,11 +22,11 @@ const Reports = () => {
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   const [selectedReport, setSelectedReport] = useState<any>(null);
   const [perfData, setPerfData] = useState([
-    { month: 'Jan', revenue: 4500000, leads: 120 },
-    { month: 'Feb', revenue: 3200000, leads: 98 },
-    { month: 'Mar', revenue: 5800000, leads: 145 },
-    { month: 'Apr', revenue: 4900000, leads: 132 },
-    { month: 'May', revenue: 7200000, leads: 168 },
+    { month: 'Jan', revenue: 45, leads: 120 },
+    { month: 'Feb', revenue: 32, leads: 98 },
+    { month: 'Mar', revenue: 58, leads: 145 },
+    { month: 'Apr', revenue: 49, leads: 132 },
+    { month: 'May', revenue: 72, leads: 168 },
   ]);
 
   const [sourceData, setSourceData] = useState([
@@ -37,10 +37,10 @@ const Reports = () => {
   ]);
 
   const [stats, setStats] = useState([
-    { label: 'औसत बिक्री मूल्य (Avg Sale Price)', value: '₹48.2L', sub: 'Last 30 days | पिछले 30 दिन', icon: <Building2 />, color: 'text-[#00d2ff]', bg: 'bg-[#00d2ff]/10' },
+    { label: 'औसत बिक्री मूल्य (Avg Sale Price)', value: '₹48.2 Lacs', sub: 'Last 30 days | पिछले 30 दिन', icon: <Building2 />, color: 'text-[#00d2ff]', bg: 'bg-[#00d2ff]/10' },
     { label: 'बुकिंग अनुपात (Booking Ratio)', value: '22.4%', sub: 'Target 25% | लक्ष्य 25%', icon: <UserCheck />, color: 'text-emerald-400', bg: 'bg-emerald-400/10' },
     { label: 'ऑडिट अनुपालन (Audit Compliance)', value: '100%', sub: 'RERA Approved | रेरा स्वीकृत', icon: <ShieldCheck />, color: 'text-indigo-400', bg: 'bg-indigo-400/10' },
-    { label: 'बकाया राशि (Pending Dues)', value: '₹8.4L', sub: 'Across 3 units | 3 यूनिट बकाया', icon: <Wallet />, color: 'text-amber-400', bg: 'bg-amber-400/10' }
+    { label: 'बकाया राशि (Pending Dues)', value: '₹8.4 Lacs', sub: 'Across 3 units | 3 यूनिट बकाया', icon: <Wallet />, color: 'text-amber-400', bg: 'bg-amber-400/10' }
   ]);
 
   // REPORT PRESETS DATA
@@ -51,10 +51,10 @@ const Reports = () => {
       desc: 'भुगतान कार्यक्रम और वित्तीय प्रवाह का विस्तृत विवरण।', 
       hindi: 'मासिक बिक्री और संग्रह ऑडिट',
       data: [
-        { date: '2026-03-28', customer: 'Rajesh Kumar', amount: '₹12,40,000', mode: 'RTGS', status: 'Verified' },
-        { date: '2026-03-26', customer: 'Sita Devi', amount: '₹8,50,000', mode: 'Cheque', status: 'Processing' },
-        { date: '2026-03-24', customer: 'Amit Singh', amount: '₹4,20,000', mode: 'Cash', status: 'Verified' },
-        { date: '2026-03-20', customer: 'Priya Sharma', amount: '₹15,00,000', mode: 'RTGS', status: 'Verified' }
+        { date: '2026-03-28', customer: 'Rajesh Kumar', amount: '12.4 Lacs', mode: 'RTGS', status: 'Verified' },
+        { date: '2026-03-26', customer: 'Sita Devi', amount: '8.5 Lacs', mode: 'Cheque', status: 'Processing' },
+        { date: '2026-03-24', customer: 'Amit Singh', amount: '4.2 Lacs', mode: 'Cash', status: 'Verified' },
+        { date: '2026-03-20', customer: 'Priya Sharma', amount: '15.0 Lacs', mode: 'RTGS', status: 'Verified' }
       ]
     },
     { 
@@ -98,7 +98,7 @@ const Reports = () => {
   const simulateDataUpdate = () => {
     setPerfData(prev => prev.map(d => ({
       ...d,
-      revenue: d.revenue + (Math.random() - 0.5) * 200000,
+      revenue: parseFloat((d.revenue + (Math.random() - 0.5) * 5).toFixed(1)),
       leads: Math.round(d.leads + (Math.random() - 0.5) * 10)
     })));
     setLastUpdate(new Date());
@@ -257,11 +257,11 @@ const Reports = () => {
              </div>
            </div>
            
-           <div className="h-80 w-full">
+            <div className="h-80 w-full">
              <ResponsiveContainer width="100%" height="100%">
                <AreaChart data={perfData}>
                  <defs>
-                   <linearGradient id="colorRev" x1="0" y1="02" x2="0" y2="1">
+                   <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
                      <stop offset="5%" stopColor="#00d2ff" stopOpacity={0.4}/>
                      <stop offset="95%" stopColor="#00d2ff" stopOpacity={0}/>
                    </linearGradient>
@@ -269,11 +269,16 @@ const Reports = () => {
                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#1e293b" opacity={0.5} />
                  <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 10, fontWeight: 'bold'}} />
                  <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 10, fontWeight: 'bold'}} hide />
-                 <Tooltip contentStyle={{ backgroundColor: '#0a1235', border: '1px solid #1e293b', borderRadius: '1rem' }} />
+                 <Tooltip 
+                   contentStyle={{ backgroundColor: '#0a1235', border: '1px solid #1e293b', borderRadius: '1rem' }}
+                   itemStyle={{ color: '#fff' }}
+                   labelStyle={{ color: '#94a3b8' }}
+                   formatter={(value: any) => [`₹${value} Lacs`, 'Revenue']}
+                 />
                  <Area type="monotone" dataKey="revenue" stroke="#00d2ff" strokeWidth={5} fillOpacity={1} fill="url(#colorRev)" />
                </AreaChart>
              </ResponsiveContainer>
-           </div>
+            </div>
         </div>
 
         {/* CONVERSION SOURCES */}
@@ -297,7 +302,11 @@ const Reports = () => {
                          <Cell key={`cell-${index}`} fill={entry.color} />
                        ))}
                      </Pie>
-                     <Tooltip contentStyle={{ backgroundColor: '#0a1235', border: '1px solid #1e293b', borderRadius: '1rem' }} />
+                     <Tooltip 
+                       contentStyle={{ backgroundColor: '#0a1235', border: '1px solid #1e293b', borderRadius: '1rem' }}
+                       itemStyle={{ color: '#fff' }}
+                       labelStyle={{ color: '#94a3b8' }}
+                     />
                   </PieChart>
                 </ResponsiveContainer>
              </div>

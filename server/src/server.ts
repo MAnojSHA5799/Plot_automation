@@ -22,7 +22,7 @@ const port = process.env.PORT || 4000;
 app.use(
   cors({
     origin: ["https://plot-automation.vercel.app"
-      // , "http://localhost:3000", "http://localhost:3001", "http://localhost:3002", "http://localhost:5173"
+      , "http://localhost:3000", "http://localhost:3001", "http://localhost:3002", "http://localhost:5173"
     ], // 👈 frontend URLs
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,

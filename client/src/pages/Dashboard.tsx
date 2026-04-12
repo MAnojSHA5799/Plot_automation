@@ -78,8 +78,8 @@ const Dashboard = () => {
   ]);
 
   const [regionalPriceData, setRegionalPriceData] = useState([
-    { name: 'Patna', price: 2500, appreciation: 500 }, { name: 'Bihta', price: 1800, appreciation: 400 },
-    { name: 'Gaya', price: 1200, appreciation: 200 }, { name: 'Muzaffarpur', price: 1500, appreciation: 300 },
+    { name: 'Patna', price: 35.5, appreciation: 5.2 }, { name: 'Bihta', price: 18.0, appreciation: 3.5 },
+    { name: 'Gaya', price: 15.5, appreciation: 2.1 }, { name: 'Muzaffarpur', price: 22.0, appreciation: 4.0 },
   ]);
 
   const [registryCostData, setCostData] = useState([
@@ -92,15 +92,15 @@ const Dashboard = () => {
   ]);
 
   const [boxPlotData, setBoxPlotData] = useState([
-    { x: 'Patna', y: [40, 50, 60, 70, 80] }, { x: 'Bihta', y: [30, 45, 55, 65, 75] }, { x: 'Gaya', y: [50, 60, 70, 80, 90] },
+    { x: 'Patna', y: [20, 28, 35, 45, 60] }, { x: 'Bihta', y: [12, 15, 18, 22, 30] }, { x: 'Gaya', y: [10, 12, 15, 18, 25] },
   ]);
 
   const [distributionData, setDistributionData] = useState([
-    { range: '0-1M', count: 40 }, { range: '1-5M', count: 120 }, { range: '5-10M', count: 80 }, { range: '10M+', count: 20 },
+    { range: '< 10L', count: 40 }, { range: '10L-25L', count: 120 }, { range: '25L-50L', count: 80 }, { range: '50L+', count: 20 },
   ]);
 
   const [relationshipData, setRelData] = useState([
-    { x: 10, y: 30, z: 200 }, { x: 20, y: 50, z: 400 }, { x: 30, y: 40, z: 300 }, { x: 40, y: 80, z: 500 },
+    { x: 12, y: 1200, z: 200 }, { x: 25, y: 1800, z: 400 }, { x: 18, y: 1500, z: 300 }, { x: 40, y: 2400, z: 500 },
   ]);
 
   const [comparisonData, setCompData] = useState([
@@ -161,8 +161,8 @@ const Dashboard = () => {
       })));
       setRegionalPriceData(prev => prev.map(i => ({
         ...i,
-        price: Math.floor(Math.random() * 1000 + 1500),
-        appreciation: Math.floor(Math.random() * 300 + 100)
+        price: Number((Math.random() * 20 + 10).toFixed(1)), // 10L to 30L
+        appreciation: Number((Math.random() * 5 + 1).toFixed(1)) // 1L to 6L
       })));
       setDistributionData(prev => randomize(prev, 'count', 10, 150));
       setCompData(prev => prev.map(i => ({
@@ -191,8 +191,8 @@ const Dashboard = () => {
     <div className="bg-[#0a1235] p-5 rounded-2xl border border-[#1e293b] shadow-2xl relative group overflow-hidden flex flex-col h-full">
       <div className="absolute top-0 left-0 w-1 h-full bg-[#00d2ff] opacity-0 group-hover:opacity-100 transition-opacity"></div>
       <div className="mb-4">
-        <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest group-hover:text-white transition-colors">{title}</h3>
-        {description && <p className="text-[10px] text-slate-500 mt-1 italic leading-relaxed">{description}</p>}
+        <h3 className="text-xs font-bold text-white uppercase tracking-widest">{title}</h3>
+        {description && <p className="text-[10px] text-white mt-1 italic leading-relaxed">{description}</p>}
       </div>
       <div className="h-[250px] w-full mt-auto">
         {children}
@@ -209,7 +209,7 @@ const Dashboard = () => {
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-black text-white tracking-widest uppercase">Bihar Plot Presence</h2>
             <div className="flex gap-2">
-               <span className="px-3 py-1 bg-[#1e293b] rounded-full text-[10px] text-slate-400 font-bold uppercase animate-pulse">Live</span>
+               <span className="px-3 py-1 bg-[#1e293b] rounded-full text-[10px] text-white font-bold uppercase animate-pulse">Live</span>
                <span className="px-3 py-1 bg-[#00d2ff]/20 rounded-full text-[10px] text-[#00d2ff] font-bold uppercase">Active Regions</span>
             </div>
           </div>
@@ -227,7 +227,7 @@ const Dashboard = () => {
           ].map((stat, i) => (
             <div key={i} className="bg-[#0a1235] px-6 py-4 rounded-2xl border border-[#1e293b] flex items-center justify-between group hover:border-[#334155] transition-all">
               <div>
-                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{stat.title}</p>
+                <p className="text-[10px] font-bold text-white uppercase tracking-widest">{stat.title}</p>
                 <p className="text-2xl font-black text-white">{stat.value}</p>
               </div>
               <div className="p-3 rounded-xl" style={{ backgroundColor: `${stat.color}11`, color: stat.color }}>
@@ -282,7 +282,7 @@ const Dashboard = () => {
           title="Price Variations" 
           description="चुनिंदा क्षेत्रों में जमीन की औसत कीमतें और उनमें होने वाली बढ़ोतरी। (Average rates and appreciation by location)."
         >
-          <StackedBarChart data={regionalPriceData} dataKey1="price" dataKey2="appreciation" />
+          <StackedBarChart data={regionalPriceData} dataKey1="price" dataKey2="appreciation" valueSuffix="L" />
         </ChartCard>
         <ChartCard 
           title="Search Velocity" 
@@ -319,7 +319,7 @@ const Dashboard = () => {
         </ChartCard>
       </Section>
 
-      <Section title="Financial Pulse" icon={<IndianRupee size={20} />}>
+      {/* <Section title="Financial Pulse" icon={<IndianRupee size={20} />}>
         <ChartCard 
           title="Market Volatility (OHLC)" 
           description="साप्ताहिक कीमतों का उतार-चढ़ाव और मार्केट की स्थिरता। (Weekly price volatility and market stability tracking)."
@@ -332,7 +332,7 @@ const Dashboard = () => {
         >
           <DualAxisChart data={comparisonData} dataKey1="leads" dataKey2="sales" />
         </ChartCard>
-      </Section>
+      </Section> */}
 
     </div>
   );

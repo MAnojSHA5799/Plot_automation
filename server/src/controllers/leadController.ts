@@ -18,7 +18,7 @@ export const getLeads = async (req: Request, res: Response) => {
 };
 
 export const createLead = async (req: Request, res: Response) => {
-  const { name, phone, email, source, campaign, adset } = req.body;
+  const { name, phone, email, source, campaign, adset, location, budget, assigned_to } = req.body;
 
   try {
     // 1. Prevent duplicate (same phone)
@@ -37,9 +37,12 @@ export const createLead = async (req: Request, res: Response) => {
       name,
       phone,
       email,
-      source: source || 'facebook',
+      source: source || 'manual',
       campaign,
       adset,
+      location,
+      budget,
+      assigned_to,
       status: 'new',
       created_at: new Date().toISOString()
     };

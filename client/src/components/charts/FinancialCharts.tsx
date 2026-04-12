@@ -33,6 +33,10 @@ const commonOptions: any = {
   },
   grid: {
     borderColor: '#1e293b'
+  },
+  dataLabels: {
+    enabled: true,
+    style: { colors: ['#fff'] }
   }
 };
 

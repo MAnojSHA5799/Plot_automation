@@ -1,6 +1,6 @@
 import React from 'react';
 import { 
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer 
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LabelList 
 } from 'recharts';
 import Chart from 'react-apexcharts';
 
@@ -18,7 +18,9 @@ export const Histogram: React.FC<ChartProps> = ({ data }) => (
         contentStyle={{ backgroundColor: '#0a1235', border: '1px solid #1e293b', borderRadius: '8px' }}
         itemStyle={{ color: '#fff' }}
       />
-      <Bar dataKey="count" fill="#00d2ff" />
+      <Bar dataKey="count" fill="#00d2ff">
+        <LabelList dataKey="count" position="top" fill="#94a3b8" fontSize={10} />
+      </Bar>
     </BarChart>
   </ResponsiveContainer>
 );
@@ -45,6 +47,7 @@ export const BoxPlot: React.FC<ChartProps> = ({ data }) => (
           }
         }
       },
+      dataLabels: { enabled: true },
       xaxis: {
         labels: { style: { colors: '#94a3b8' } }
       },
@@ -76,6 +79,7 @@ export const ViolinPlot: React.FC<ChartProps> = ({ data }) => (
         style: { color: '#fff' }
       },
       theme: { mode: 'dark' },
+      dataLabels: { enabled: true },
       xaxis: {
         categories: ['Price', 'Demand', 'Supply', 'Conversion', 'Leads'],
         labels: { style: { colors: '#94a3b8' } }
