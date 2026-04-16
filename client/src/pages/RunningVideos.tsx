@@ -33,7 +33,7 @@ const RunningVideos = () => {
       location: 'Bihta, Patna',
       date: '24 Mar 2024',
       thumbnail: 'https://images.pexels.com/photos/1591373/pexels-photo-1591373.jpeg',
-      url: 'https://image2url.com/r2/default/videos/1773905874478-dc4cf942-30e0-4ea1-ae7f-5822cb8334b6.mp4',
+      url: 'https://www.image2url.com/r2/default/videos/1776336359494-ded0dba9-8c0f-40ee-bd79-0ff5176c5f94.mp4',
       category: 'Drone',
       views: '1.2K'
     },
