@@ -43,7 +43,7 @@ const RunningVideos = () => {
       location: 'Patna City',
       date: '28 Mar 2024',
       thumbnail: 'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg',
-     url: 'https://image2url.com/r2/default/videos/1773905874478-dc4cf942-30e0-4ea1-ae7f-5822cb8334b6.mp4',
+     url: 'https://www.image2url.com/r2/default/videos/1776336481058-10dacce6-81e4-4246-8365-13096cfd30a5.mp4',
       category: 'Site Visit',
       views: '850'
     },
