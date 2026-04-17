@@ -1,6 +1,10 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import path from 'path';
+import { fileURLToPath } from 'url';
+import path, { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,12 +18,12 @@ export default defineConfig({
     port: 3000,
     proxy: {
       '/api': {
-        target: 'https://plot-automation.onrender.com',
+        target: 'https://plot-automation-omr4.vercel.app',
         
         changeOrigin: true,
       },
       '/socket.io': {
-        target: 'https://plot-automation.onrender.com',
+        target: 'https://plot-automation-omr4.vercel.app',
         ws: true,
       },
     },
