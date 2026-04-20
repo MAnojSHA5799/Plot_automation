@@ -47,7 +47,7 @@ const RunningVideos = () => {
       location: 'Patna, Bihar',
       date: '20 Apr 2026',
       thumbnail: 'https://images.pexels.com/photos/1591373/pexels-photo-1591373.jpeg',
-      url: 'https://res.cloudinary.com/dsgcusx1p/image/upload/v1776659982/Gemini_Generated_Image_5chl3n5chl3n5chl_ocdlbt.png',
+      url: 'https://res.cloudinary.com/dsgcusx1p/image/upload/v1776662275/Gemini_Generated_Image_ljm5ecljm5ecljm5_js4bhr.png',
       type: 'image',
       category: 'Drone',
       views: '1.8K'
