@@ -34,6 +34,29 @@ const RunningVideos = () => {
       id: '3',
       title: 'Awadha Vihar Developer',
       location: 'Patna City',
+      date: '20 Apr 2026',
+      thumbnail: 'https://images.pexels.com/photos/101808/pexels-photo-101808.jpeg',
+      url: 'https://www.image2url.com/r2/default/videos/1776658974737-58849be6-eb93-43cc-b974-42fdeb676880.mp4',
+      type: 'video',
+      category: 'Walkthrough',
+      views: '0K'
+    },
+     {
+      id: '4',
+      title: 'Awadha Vihar Developer',
+      location: 'Patna, Bihar',
+      date: '20 Apr 2026',
+      thumbnail: 'https://images.pexels.com/photos/1591373/pexels-photo-1591373.jpeg',
+      url: 'https://res.cloudinary.com/dsgcusx1p/image/upload/v1776659982/Gemini_Generated_Image_5chl3n5chl3n5chl_ocdlbt.png',
+      type: 'image',
+      category: 'Drone',
+      views: '1.8K'
+    },
+    
+     {
+      id: '3',
+      title: 'Awadha Vihar Developer',
+      location: 'Patna City',
       date: '17 Apr 2026',
       thumbnail: 'https://images.pexels.com/photos/101808/pexels-photo-101808.jpeg',
       url: 'https://res.cloudinary.com/dsgcusx1p/video/upload/v1776414257/WhatsApp_Video_2026-04-15_at_5.07.22_PM_online-video-cutter.com_s8eida.mp4',
