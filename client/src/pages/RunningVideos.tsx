@@ -32,7 +32,7 @@ const RunningVideos = () => {
   const mediaItems: MediaItem[] = [
     {
       id: '3',
-      title: 'Awadha Vihar Developer',
+      title: 'Awadh Vihar Developer',
       location: 'Patna City',
       date: '21 Apr 2026',
       thumbnail: 'https://images.pexels.com/photos/101808/pexels-photo-101808.jpeg',
@@ -43,7 +43,7 @@ const RunningVideos = () => {
     },
      {
       id: '4',
-      title: 'Awadha Vihar Developer',
+      title: 'Awadh Vihar Developer',
       location: 'Patna, Bihar',
       date: '21 Apr 2026',
       thumbnail: 'https://images.pexels.com/photos/1591373/pexels-photo-1591373.jpeg',
@@ -55,7 +55,7 @@ const RunningVideos = () => {
     
      {
       id: '3',
-      title: 'Awadha Vihar Developer',
+      title: 'Awadh Vihar Developer',
       location: 'Patna City',
       date: '20 Apr 2026',
       thumbnail: 'https://images.pexels.com/photos/101808/pexels-photo-101808.jpeg',
@@ -66,7 +66,7 @@ const RunningVideos = () => {
     },
      {
       id: '4',
-      title: 'Awadha Vihar Developer',
+      title: 'Awadh Vihar Developer',
       location: 'Patna, Bihar',
       date: '20 Apr 2026',
       thumbnail: 'https://images.pexels.com/photos/1591373/pexels-photo-1591373.jpeg',
@@ -78,7 +78,7 @@ const RunningVideos = () => {
     
      {
       id: '3',
-      title: 'Awadha Vihar Developer',
+      title: 'Awadh Vihar Developer',
       location: 'Patna City',
       date: '17 Apr 2026',
       thumbnail: 'https://images.pexels.com/photos/101808/pexels-photo-101808.jpeg',
@@ -89,7 +89,7 @@ const RunningVideos = () => {
     },
     {
       id: '4',
-      title: 'Awadha Vihar Developer',
+      title: 'Awadh Vihar Developer',
       location: 'Patna, Bihar',
       date: '17 Apr 2026',
       thumbnail: 'https://images.pexels.com/photos/1591373/pexels-photo-1591373.jpeg',
@@ -111,7 +111,7 @@ const RunningVideos = () => {
     },
     {
       id: '2',
-      title: 'Awadha Vihar Developer',
+      title: 'Awadh Vihar Developer',
       location: 'Patna City',
       date: '15 Apr 2026',
       thumbnail: 'https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg',
