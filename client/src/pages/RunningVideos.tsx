@@ -30,6 +30,29 @@ const RunningVideos = () => {
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
 
   const mediaItems: MediaItem[] = [
+    {
+      id: '3',
+      title: 'Awadha Vihar Developer',
+      location: 'Patna City',
+      date: '21 Apr 2026',
+      thumbnail: 'https://images.pexels.com/photos/101808/pexels-photo-101808.jpeg',
+      url: 'https://www.image2url.com/r2/default/videos/1776745638679-3e87f488-8cb3-4466-8a46-b96b947e0a22.mp4',
+      type: 'video',
+      category: 'Walkthrough',
+      views: '0K'
+    },
+     {
+      id: '4',
+      title: 'Awadha Vihar Developer',
+      location: 'Patna, Bihar',
+      date: '21 Apr 2026',
+      thumbnail: 'https://images.pexels.com/photos/1591373/pexels-photo-1591373.jpeg',
+      url: 'https://res.cloudinary.com/dsgcusx1p/image/upload/v1776745824/Gemini_Generated_Image_g6xyg6g6xyg6g6xy_k6p5kl.png',
+      type: 'image',
+      category: 'Drone',
+      views: '1.8K'
+    },
+    
      {
       id: '3',
       title: 'Awadha Vihar Developer',
