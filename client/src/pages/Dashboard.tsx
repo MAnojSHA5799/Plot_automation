@@ -58,9 +58,10 @@ const Dashboard = () => {
   ]);
 
   const [ageGroupData, setAgeGroupData] = useState([
-    { name: '18-24', value: 25 }, { name: '25-34', value: 45 }, { name: '35-44', value: 20 },
-    { name: '45-54', value: 7 }, { name: '55+', value: 3 },
-  ]);
+  { name: '35-44', value: 40 },
+  { name: '45-54', value: 30 },
+  { name: '55-65', value: 30 },
+]);
 
   const [locationSearchData, setLocationData] = useState([
     { name: 'Patna', value: 95 }, { name: 'Bihta', value: 82 }, { name: 'Muzaffarpur', value: 68 },
