@@ -342,8 +342,8 @@ const Leads = () => {
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex flex-col">
-                       <span className="text-sm font-bold text-gray-900">{lead.location || '-'}</span>
-                       <span className="text-xs text-gray-400">{lead.budget ? `₹${lead.budget}` : '-'}</span>
+                       {/* <span className="text-sm font-bold text-gray-900">{lead.location || '-'}</span> */}
+                       <span className="text-xs font-bold text-gray-900">{lead.budget ? `₹${lead.budget}` : '-'}</span>
                     </div>
                   </td>
                   <td className="px-6 py-4">
