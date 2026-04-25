@@ -34,12 +34,34 @@ const RunningVideos = () => {
       id: '3',
       title: 'Awadh Vihar Developer',
       location: 'Patna City',
+      date: '25 Apr 2026',
+      thumbnail: 'https://images.pexels.com/photos/101808/pexels-photo-101808.jpeg',
+      url: 'https://www.image2url.com/r2/default/videos/1777082836136-b6e85617-167e-4c83-bc51-61b85cbe824c.mp4',
+      type: 'video',
+      category: 'Walkthrough',
+      views: '0K'
+    },
+     {
+      id: '4',
+      title: 'Awadh Vihar Developer',
+      location: 'Patna, Bihar',
+      date: '25 Apr 2026',
+      thumbnail: 'https://images.pexels.com/photos/1591373/pexels-photo-1591373.jpeg',
+      url: 'https://res.cloudinary.com/dsgcusx1p/image/upload/v1777082599/Gemini_Generated_Image_mgfc9omgfc9omgfc_gqlztf.png',
+      type: 'image',
+      category: 'Drone',
+      views: '0K'
+    },
+    {
+      id: '3',
+      title: 'Awadh Vihar Developer',
+      location: 'Patna City',
       date: '24 Apr 2026',
       thumbnail: 'https://images.pexels.com/photos/101808/pexels-photo-101808.jpeg',
       url: 'https://www.image2url.com/r2/default/videos/1777001634148-ba1553c7-ca23-48af-bf1e-5c8f78e60b14.mp4',
       type: 'video',
       category: 'Walkthrough',
-      views: '0K'
+      views: '4861'
     },
      {
       id: '4',
@@ -50,7 +72,7 @@ const RunningVideos = () => {
       url: 'https://res.cloudinary.com/dsgcusx1p/image/upload/v1777001219/Gemini_Generated_Image_7cwtj47cwtj47cwt_dba5ye.png',
       type: 'image',
       category: 'Drone',
-      views: '0k'
+      views: '1171'
     },
      {
       id: '3',

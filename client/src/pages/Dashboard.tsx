@@ -11,7 +11,13 @@ import {
   TrendingDown,
   LayoutGrid,
   Share2,
-  Globe
+  Globe,
+  Facebook,
+  Target,
+  Eye,
+  MousePointerClick,
+  TrendingUp,
+  BarChart
 } from 'lucide-react';
 import api from '../services/api';
 import IndiaMap from '../components/IndiaMap';
@@ -108,6 +114,30 @@ const Dashboard = () => {
     { name: 'North', leads: 400, sales: 240, revenue: 2400 },
     { name: 'South', leads: 300, sales: 139, revenue: 2210 },
   ]);
+  
+  // --- Facebook Ads Mock Data ---
+  const [fbAdStats, setFbAdStats] = useState({
+    activeAds: 0,
+    totalLeads: 0,
+    totalReach: '0',
+    totalImpressions: '0',
+    avgCPL: 0,
+    budgetSpent: 0,
+    avgCTR: 0,
+    avgFrequency: 0,
+    availableBalance: '0.00',
+    currency: 'INR',
+    accountStatus: 'Active'
+  });
+
+  const [fbLeadsTrend, setFbLeadsTrend] = useState([]);
+  const [fbVisibilityTrend, setFbVisibilityTrend] = useState([]);
+  const [fbCtrTrend, setFbCtrTrend] = useState([]);
+  const [fbPlatformData, setFbPlatformData] = useState([]);
+  const [fbDemographicData, setFbDemographicData] = useState([]);
+  const [fbLocationData, setFbLocationData] = useState([]);
+  const [fbActiveAdsTrend, setFbActiveAdsTrend] = useState([]);
+  const [adPerformanceData, setAdPerformanceData] = useState([]);
 
   const financialData = [
     { x: new Date().getTime(), y: [51.4, 61.8, 54.0, 59.0] },
@@ -134,15 +164,28 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [leads, plots, payments] = await Promise.all([
-          api.get('/leads'), api.get('/plots'), api.get('/payments')
+        const [leads, plots, payments, fbInsights] = await Promise.all([
+          api.get('/leads'), api.get('/plots'), api.get('/payments'), api.get('/facebook/insights')
         ]);
+        
         setStats({
           totalLeads: leads.data.length,
           totalPlots: plots.data.length,
           soldPlots: plots.data.filter((p: any) => p.status === 'sold').length,
           revenue: payments.data.reduce((acc: number, p: any) => acc + Number(p.amount), 0)
         });
+
+        if (fbInsights.data) {
+          setFbAdStats(fbInsights.data.summary);
+          setFbLeadsTrend(fbInsights.data.trends.leads);
+          setFbVisibilityTrend(fbInsights.data.trends.visibility);
+          setFbCtrTrend(fbInsights.data.trends.ctr);
+          setFbPlatformData(fbInsights.data.platforms);
+          setFbDemographicData(fbInsights.data.demographics);
+          setFbLocationData(fbInsights.data.locations);
+          setFbActiveAdsTrend(fbInsights.data.trends.activeAds);
+          setAdPerformanceData(fbInsights.data.adPerformance);
+        }
       } catch (err) {
         console.error('Failed to fetch stats');
       }
@@ -238,6 +281,93 @@ const Dashboard = () => {
           ))}
         </div>
       </div>
+
+      {/* <Section title="Facebook Ads Analytics" icon={<Facebook size={20} />}>
+        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-2">
+          {[
+            { title: 'Active Ads', value: fbAdStats.activeAds, color: '#1877F2', icon: <Target size={16} /> },
+            { title: 'FB Leads', value: fbAdStats.totalLeads, color: '#00d2ff', icon: <Users size={16} /> },
+            { title: 'Total Reach', value: fbAdStats.totalReach, color: '#9d50bb', icon: <Eye size={16} /> },
+            { title: 'Avg. CPL', value: `₹${fbAdStats.avgCPL}`, color: '#f83600', icon: <TrendingUp size={16} /> },
+            { title: 'Avg. CTR', value: `${fbAdStats.avgCTR}%`, color: '#00f2fe', icon: <MousePointerClick size={16} /> },
+            { title: 'Funds Available', value: `₹${fbAdStats.availableBalance || '0.00'}`, color: '#10b981', icon: <IndianRupee size={16} /> },
+            { title: 'Acc Status', value: fbAdStats.accountStatus || 'Active', color: fbAdStats.accountStatus === 'Active' ? '#10b981' : '#f83600', icon: <Zap size={16} /> },
+          ].map((stat, i) => (
+            <div key={i} className="bg-[#0a1235]/50 p-4 rounded-xl border border-[#1e293b] flex items-center justify-between group hover:border-[#1877F2]/50 transition-all">
+              <div>
+                <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{stat.title}</p>
+                <p className="text-xl font-black text-white">{stat.value}</p>
+              </div>
+              <div className="p-2 rounded-lg" style={{ backgroundColor: `${stat.color}11`, color: stat.color }}>
+                {stat.icon}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <ChartCard 
+          title="Daily Lead Generation" 
+          description="Facebook Ads se aane wali daily leads ka trend. (Daily lead volume from FB campaigns)."
+        >
+          <BasicAreaChart data={fbLeadsTrend} />
+        </ChartCard>
+
+        <ChartCard 
+          title="Daily Active Ads" 
+          description="Har din kitne ads active rahe (jinhe impressions mile). (Count of unique ads active per day)."
+        >
+          <BasicBarChart data={fbActiveAdsTrend} />
+        </ChartCard>
+
+        <ChartCard 
+          title="Platform Distribution" 
+          description="Leads kaha se aa rahi hain: Facebook ya Instagram? (Lead distribution by placement platform)."
+        >
+          <BasicPieChart data={fbPlatformData} />
+        </ChartCard>
+
+        <ChartCard 
+          title="Age & Gender Leads" 
+          description="Kaunse age group aur gender se zyada leads aa rahi hain. (Demographic breakdown of leads)."
+        >
+          <BasicBarChart data={fbDemographicData} />
+        </ChartCard>
+
+        <ChartCard 
+          title="Top Regions (Leads)" 
+          description="Kin ilakon/states se sabse zyada response mil raha hai. (Regional breakdown of campaign performance)."
+        >
+          <BasicBarChart data={fbLocationData} layout="vertical" />
+        </ChartCard>
+
+        <ChartCard 
+          title="Visibility & Engagement" 
+          description="Ads ki Reach aur Impressions ka comparison. (Reach vs Impressions tracking)."
+        >
+          <DualAxisChart data={fbVisibilityTrend} dataKey1="reach" dataKey2="impressions" />
+        </ChartCard>
+
+        <ChartCard 
+          title="CTR Trend (%)" 
+          description="Click-Through Rate (CTR) ka daily badlav. (Daily trend of ad engagement rate)."
+        >
+          <BasicLineChart data={fbCtrTrend} />
+        </ChartCard>
+
+        <ChartCard 
+          title="Top Performing Ads" 
+          description="Leads aur CTR ke aadhar par top ads. (Performance comparison: Leads vs CTR)."
+        >
+          <DualAxisChart data={adPerformanceData} dataKey1="leads" dataKey2="ctr" />
+        </ChartCard>
+
+        <ChartCard 
+          title="Ad Efficiency (CPL)" 
+          description="Alag-alag ads par per lead kitna kharch ho raha hai. (Cost Per Lead comparison across active ads)."
+        >
+          <DualAxisChart data={adPerformanceData} dataKey1="leads" dataKey2="cpl" />
+        </ChartCard>
+      </Section> */}
 
       <Section title="Search Behavior" icon={<Globe size={20} />}>
         <ChartCard 

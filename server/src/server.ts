@@ -11,6 +11,7 @@ import siteVisitRoutes from './routes/siteVisitRoutes';
 import reportRoutes from './routes/reportRoutes';
 import eventRoutes from './routes/eventRoutes';
 import sentimentRoutes from './routes/sentimentRoutes';
+import facebookRoutes from './routes/facebookRoutes';
 
 dotenv.config();
 
@@ -42,6 +43,7 @@ app.use('/api/site-visits', siteVisitRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/sentiment', sentimentRoutes);
+app.use('/api/facebook', facebookRoutes);
 
 // Health check
 app.get('/', (req, res) => {

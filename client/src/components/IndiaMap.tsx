@@ -13,6 +13,7 @@ import { geoCentroid } from "d3-geo";
 // ✅ Props (future use ke liye)
 type IndiaMapProps = {
   data?: { id: string; value: number }[];
+  locationNames?: string[];
   markers?: {
     markerOffset: number;
     name: string;
@@ -87,11 +88,16 @@ export default function IndiaMap(props: IndiaMapProps) {
   }, [isLoading]);
 
   // ✅ 10 locations at a time
+  const displayLocations = props.locationNames && props.locationNames.length > 0 
+    ? props.locationNames 
+    : BIHAR_DATA;
+
   const visibleLocations = Array.from({ length: 10 }, (_, i) => {
-    return BIHAR_DATA[(currentIndex + i) % BIHAR_DATA.length];
+    return displayLocations[(currentIndex + i) % displayLocations.length];
   });
 
   if (isLoading) {
+    // ... (keep loader as is)
     return (
       <div
         style={{
